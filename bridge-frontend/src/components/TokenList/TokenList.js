@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Select from 'react-select';
-import { API_URL } from '../../constants/urls';
+import fetchTokens from '../../utils/fetchTokens';
 import { useNavigate } from 'react-router-dom';
 import './TokenList.css';
 
@@ -11,29 +10,12 @@ const TokenList = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchTokens = async () => {
-            try {
-                console.log('Fetching tokens from backend...');
-                const response = await axios.get(`${API_URL}tokens`); // Specify port 3001
-                console.log('Response from backend:', response); // Log the entire response
-                const tokenData = response.data || [];
-                const uniqueTokens = tokenData.filter((token, index, self) =>
-                    index === self.findIndex((t) => (
-                        t.symbol === token.symbol
-                    ))
-                ).map(token => ({
-                    value: token.address,
-                    label: token.symbol,
-                    logo: token.logoURI,
-                }));
-                uniqueTokens.sort((a, b) => a.label.localeCompare(b.label)); // Sort tokens alphabetically by symbol
-                setTokens(uniqueTokens);
-            } catch (error) {
-                console.error("Error fetching tokens:", error); // Log the error
-                setError("Failed to fetch tokens.");
-            }
+        const fetchAndSetTokens = async () => {
+            const uniqueTokens = await fetchTokens();
+            console.log("Fetched Tokens:", uniqueTokens);
+            setTokens(uniqueTokens);
         };
-        fetchTokens();
+        fetchAndSetTokens();
     }, []);
 
     const customSingleValue = ({ data }) => (

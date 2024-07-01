@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../constants/urls';
-import axios from 'axios';
+import fetchTokens from '../../utils/fetchTokens';
 import Select from 'react-select';
 import './QuoteForm.css';
 
@@ -17,27 +16,12 @@ const QuoteForm = () => {
     const [filteredDestTokens, setFilteredDestTokens] = useState([]);
 
     useEffect(() => {
-        const fetchTokens = async () => {
-            try {
-                const response = await axios.get(`${API_URL}tokens`);
-                const tokenData = response.data || [];
-                const uniqueTokens = tokenData.filter((token, index, self) =>
-                    index === self.findIndex((t) => (
-                        t.symbol === token.symbol
-                    ))
-                ).map(token => ({
-                    value: token.address,
-                    label: token.symbol,
-                    logo: token.logoURI,
-                    chainId: token.chainId,
-                }));
-                uniqueTokens.sort((a, b) => a.label.localeCompare(b.label));
-                setTokens(uniqueTokens);
-            } catch (error) {
-                console.error("Failed to fetch tokens.");
-            }
+        const fetchAndSetTokens = async () => {
+            const uniqueTokens = await fetchTokens();
+            console.log("Fetched Tokens:", uniqueTokens);
+            setTokens(uniqueTokens);
         };
-        fetchTokens();
+        fetchAndSetTokens();
     }, []);
 
     useEffect(() => {
