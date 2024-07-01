@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import fetchTokens from '../../utils/fetchTokens';
+import filterTokensByChainId from '../../utils/filterTokensByChainId';
 import Select from 'react-select';
 import './QuoteForm.css';
 
@@ -11,28 +11,29 @@ const QuoteForm = () => {
         destChainId: '',
         toTokenAddress: ''
     });
-    const [tokens, setTokens] = useState([]);
     const [filteredSrcTokens, setFilteredSrcTokens] = useState([]);
     const [filteredDestTokens, setFilteredDestTokens] = useState([]);
 
+
     useEffect(() => {
-        const fetchAndSetTokens = async () => {
-            const uniqueTokens = await fetchTokens();
-            console.log("Fetched Tokens:", uniqueTokens);
-            setTokens(uniqueTokens);
+        const fetchAndFilterTokens = async () => {
+            const filteredTokens = await filterTokensByChainId(formData.srcChainId);
+            setFilteredSrcTokens(filteredTokens);
         };
-        fetchAndSetTokens();
-    }, []);
+        if (formData.srcChainId) {
+            fetchAndFilterTokens();
+        }
+    }, [formData.srcChainId]);
 
     useEffect(() => {
-        const filtered = tokens.filter(token => token.chainId.toString() === formData.srcChainId);
-        setFilteredSrcTokens(filtered);
-    }, [formData.srcChainId, tokens]);
-
-    useEffect(() => {
-        const filtered = tokens.filter(token => token.chainId.toString() === formData.destChainId);
-        setFilteredDestTokens(filtered);
-    }, [formData.destChainId, tokens]);
+        const fetchAndFilterTokens = async () => {
+            const filteredTokens = await filterTokensByChainId(formData.destChainId);
+            setFilteredDestTokens(filteredTokens);
+        };
+        if (formData.destChainId) {
+            fetchAndFilterTokens();
+        }
+    }, [formData.destChainId]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
