@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import filterTokensByChainId from '../../utils/filterTokensByChainId';
+import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import './QuoteForm.css';
 
@@ -13,7 +14,7 @@ const QuoteForm = () => {
     });
     const [filteredSrcTokens, setFilteredSrcTokens] = useState([]);
     const [filteredDestTokens, setFilteredDestTokens] = useState([]);
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAndFilterTokens = async () => {
@@ -103,7 +104,8 @@ const QuoteForm = () => {
                         isDisabled={!formData.destChainId}
                     />
                 </label>
-                <button type="submit" disabled={!formData.srcChainId || !formData.fromTokenAddress || !formData.amount || !formData.destChainId || !formData.toTokenAddress}>Get Quote</button>
+                {/* <button type="submit" disabled={!formData.srcChainId || !formData.fromTokenAddress || !formData.amount || !formData.destChainId || !formData.toTokenAddress}>Get Quote</button> */}
+                <button onClick={() => navigate('/transactionParams')}>Get Parameters</button>
             </form>
         </div>
     );

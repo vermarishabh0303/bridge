@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TokenList from './components/TokenList/TokenList';
 import QuoteForm from './components/QuoteForm/QuoteForm';
+import TransactionParams from './components/TransactionParams/TransactionParams'
 import './App.css';
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<TokenList />} />
                         <Route path="/quote" element={<QuoteForm />} />
+                        <Route path="/transactionParams" element={<TransactionParams />} />
                     </Routes>
                 </div>
             </div>
