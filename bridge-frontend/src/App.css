@@ -1,0 +1,55 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1e1e2f; /* Dark background with a hint of blue */
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  padding-top: 80px; /* Add padding to make room for the fixed header */
+}
+
+header {
+  width: 100%;
+  background-color: #2e2e48; /* Slightly lighter dark background */
+  color: #ffffff;
+  text-align: center;
+  padding: 1em 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  margin-top: 5%; /* Adjust this value to control the vertical position */
+}
+
+.quote-title {
+  color: #c5c;
+  margin-bottom: 1em;
+}
+
+.App {
+  text-align: center;
+  background: #2e2e48; /* Slightly lighter dark background */
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  margin-top: 5%; /* Adjust this value to control the vertical position */
+}
