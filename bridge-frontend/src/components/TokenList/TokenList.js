@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import { API_URL } from '../../constants/urls';
 import { useNavigate } from 'react-router-dom';
 import './TokenList.css';
 
@@ -13,7 +14,7 @@ const TokenList = () => {
         const fetchTokens = async () => {
             try {
                 console.log('Fetching tokens from backend...');
-                const response = await axios.get('http://localhost:3001/api/tokens'); // Specify port 3001
+                const response = await axios.get(`${API_URL}tokens`); // Specify port 3001
                 console.log('Response from backend:', response); // Log the entire response
                 const tokenData = response.data || [];
                 const uniqueTokens = tokenData.filter((token, index, self) =>

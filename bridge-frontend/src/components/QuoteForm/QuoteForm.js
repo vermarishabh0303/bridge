@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../constants/urls';
 import axios from 'axios';
 import Select from 'react-select';
 import './QuoteForm.css';
@@ -18,7 +19,7 @@ const QuoteForm = () => {
     useEffect(() => {
         const fetchTokens = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/tokens');
+                const response = await axios.get(`${API_URL}tokens`);
                 const tokenData = response.data || [];
                 const uniqueTokens = tokenData.filter((token, index, self) =>
                     index === self.findIndex((t) => (
