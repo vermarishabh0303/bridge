@@ -14,6 +14,7 @@ const Swap = () => {
   const [amount, setAmount] = useState();
   const [qouteResult, setQouteResult] = useState();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSelectChain = (chainId) => {
     console.log("Selected chain:", chainId); // Debug statement
@@ -47,6 +48,7 @@ const Swap = () => {
 
   async function handleGetQoute() {
     setLoading(true);
+    setError(null);
     const amt = amount * 10 ** 18;
     const qoute = await getQuote(
       selectedChain,
@@ -57,8 +59,11 @@ const Swap = () => {
     );
     if (qoute?.isSuccess) {
       setQouteResult(qoute);
-      setLoading(false);
     }
+    else{
+      setError(qoute?.msg);
+    }
+    setLoading(false);
   }
 
   return (
@@ -116,17 +121,18 @@ const Swap = () => {
           </div>
         </div>
         
-        {/* {qouteResult?.isSuccess ? (
-        loading ? (<h3>Calculating...</h3>) :
-        qouteResult?.estimatedGas && (
-          <h3>Estimated Gas {qouteResult.estimatedGas} wei</h3>
-        )) :
-        (<h3>Quotation failed: {qouteResult.msg}</h3>)} */}
+        {/* loading ? (<h3>Calculating...</h3>) :
+        qouteResult?.estimatedGas && ( qouteResult?.isSuccess ?
+          <h3>Estimated Gas {qouteResult.estimatedGas} wei</h3> : 
+          <h3>Quotation failed: {qouteResult.msg}</h3>
+        )} */}
         {
         loading ? (<h3>Calculating...</h3>) :
-        qouteResult?.estimatedGas && (
-          <h3>Estimated Gas {qouteResult.estimatedGas} wei</h3>
-        )}
+        !error ?
+        (qouteResult?.estimatedGas && 
+          (<h3>Estimated Gas {qouteResult.estimatedGas} wei</h3>)) :
+          (<h3> Quotation failed: {error} </h3>)
+        }
         <button className="button" onClick={handleGetQoute}>
           Get Quote
         </button>
