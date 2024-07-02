@@ -15,6 +15,7 @@ const QuoteForm = () => {
     });
     const [filteredSrcTokens, setFilteredSrcTokens] = useState([]);
     const [filteredDestTokens, setFilteredDestTokens] = useState([]);
+    const [loading, setLoading] = useState(false); // Add loading state
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,23 +49,25 @@ const QuoteForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Handling the submit logic here, like calling the backend API
-        // const { srcChainId, fromTokenAddress, amount, destChainId, toTokenAddress } = formData;
+        setLoading(true);
+        const { srcChainId, fromTokenAddress, amount, destChainId, toTokenAddress } = formData;
         try {
-            // const response = await axios.get(`https://open-api.xy.finance/v1/quote`, {
-            //     params: {
-            //         srcChainId,
-            //         fromTokenAddress,
-            //         amount,
-            //         destChainId,
-            //         toTokenAddress
-            //     }
-            // });
-            const response = await axios.get('https://open-api.xy.finance/v1/quote?srcChainId=1&fromTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&amount=500000000000000000&destChainId=56&toTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+            const response = await axios.get(`https://open-api.xy.finance/v1/quote`, {
+                params: {
+                    srcChainId,
+                    fromTokenAddress,
+                    amount,
+                    destChainId,
+                    toTokenAddress
+                }
+            });
             console.log(response.data);
             // Navigate to the /quotation endpoint
             navigate('/quotation', { state: { quoteData: response.data } });
         } catch (error) {
             console.error("Error fetching quote:", error);
+        } finally {
+            setLoading(false); // Set loading state to false
         }
     };
 
@@ -81,6 +84,16 @@ const QuoteForm = () => {
             {data.label}
         </div>
     );
+
+    if (loading) {
+        return <div>
+            Fetching results...
+                <div>
+                    <img src="/assets/waitingGif.gif" alt="Loading..." style={{ width: '150px', height: '150px' }}/>
+                </div>
+            </div>;
+    }
+
 
     return (
         <div>

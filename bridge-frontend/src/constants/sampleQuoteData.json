@@ -1,0 +1,63 @@
+{
+    "isSuccess": true,
+    "msg": "Quotation success.",
+    "fromTokenAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "toTokenAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "fromTokenAmount": "500000000000000000",
+    "contractAddress": "0x4315f344a905dC21a08189A117eFd6E1fcA37D57",
+    "srcChainId": "1",
+    "destChainId": "56",
+    "xyFee": {
+      "amount": 0.000232529145848202,
+      "symbol": "ETH"
+    },
+    "quote": {
+      "sourceChainSwaps": null,
+      "crossChainSwap": {
+        "dexNames": [
+          "yBridge"
+        ],
+        "aggreagatorName": null,
+        "fromToken": {
+          "tokenAddress": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+          "chainId": "1",
+          "symbol": "ETH",
+          "decimals": 18
+        },
+        "toToken": {
+          "tokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+          "chainId": "56",
+          "symbol": "ETH",
+          "decimals": 18
+        }
+      },
+      "destChainSwaps": {
+        "dexNames": [
+          "PancakeSwap V3"
+        ],
+        "aggreagatorName": "OKX DEX",
+        "fromToken": {
+          "tokenAddress": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+          "chainId": "56",
+          "symbol": "ETH",
+          "decimals": 18
+        },
+        "toToken": {
+          "tokenAddress": "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+          "chainId": "56",
+          "symbol": "BNB",
+          "decimals": 18
+        }
+      },
+      "toTokenAmount": "2.9732621144972926"
+    },
+    "toTokenAmount": "2973262114497292600",
+    "fromTokenValue": 1723.23,
+    "toTokenValue": 1723.36218680492,
+    "crossChainFee": null,
+    "statusCode": "0",
+    "estimatedGas": 150000,
+    "minimumReceived": "2.9435294933523197",
+    "estimatedTransferTime": 253,
+    "transactionCounts": 2
+  }
