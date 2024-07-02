@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import filterTokensByChainId from '../../utils/filterTokensByChainId';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
@@ -44,10 +45,27 @@ const QuoteForm = () => {
         setFormData({ ...formData, [action.name]: selectedOption ? selectedOption.value : '' });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle the submit logic here, like calling the backend API
-        console.log(formData);
+        // Handling the submit logic here, like calling the backend API
+        // const { srcChainId, fromTokenAddress, amount, destChainId, toTokenAddress } = formData;
+        try {
+            // const response = await axios.get(`https://open-api.xy.finance/v1/quote`, {
+            //     params: {
+            //         srcChainId,
+            //         fromTokenAddress,
+            //         amount,
+            //         destChainId,
+            //         toTokenAddress
+            //     }
+            // });
+            const response = await axios.get('https://open-api.xy.finance/v1/quote?srcChainId=1&fromTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&amount=500000000000000000&destChainId=56&toTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+            console.log(response.data);
+            // Navigate to the /quotation endpoint
+            navigate('/quotation', { state: { quoteData: response.data } });
+        } catch (error) {
+            console.error("Error fetching quote:", error);
+        }
     };
 
     const customSingleValue = ({ data }) => (
@@ -104,8 +122,8 @@ const QuoteForm = () => {
                         isDisabled={!formData.destChainId}
                     />
                 </label>
-                {/* <button type="submit" disabled={!formData.srcChainId || !formData.fromTokenAddress || !formData.amount || !formData.destChainId || !formData.toTokenAddress}>Get Quote</button> */}
-                <button onClick={() => navigate('/transactionParams')}>Get Parameters</button>
+                <button type="submit" disabled={!formData.srcChainId || !formData.fromTokenAddress || !formData.amount || !formData.destChainId || !formData.toTokenAddress}>Get Quote</button>
+                {/* <button onClick={() => navigate('/quotation')}>Get Parameters</button> */}
             </form>
         </div>
     );
