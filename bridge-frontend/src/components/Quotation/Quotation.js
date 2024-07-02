@@ -18,6 +18,8 @@ const Quotation = () => {
             throw new Error("Quotation failed: " + (quoteData.msg || "Unknown error"));
         }
 
+        const estimatedGasInEth = (quoteData.estimatedGas / 10 ** 18).toFixed(18);
+
         return (
             <div>
                 <h2>Quotation Details</h2>
@@ -27,7 +29,7 @@ const Quotation = () => {
                 <p><strong>From Token Value:</strong> {quoteData.fromTokenValue}</p>
                 <p><strong>To Token Value:</strong> {quoteData.toTokenValue}</p>
                 <p><strong>Estimated Transfer Time:</strong> {quoteData.estimatedTransferTime} seconds</p>
-                <h3><strong>Estimated Gas:</strong> {quoteData.estimatedGas}</h3>
+                <h3><strong>Estimated Gas:</strong> {estimatedGasInEth} ETH</h3>
                 <button onClick={() => navigate('/transactionParams')}>Bridge</button>
             </div>
         );

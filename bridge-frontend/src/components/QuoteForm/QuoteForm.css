@@ -43,3 +43,21 @@ button:disabled {
     background-color: rgb(57, 139, 57);
     cursor: not-allowed;
 }
+
+.amount-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.amount-container input {
+    flex: 1;
+    padding-right: 40px; /* Adjust as needed */
+}
+
+.amount-unit {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    pointer-events: none;
+    color: #666; /* Adjust color as needed */
+}

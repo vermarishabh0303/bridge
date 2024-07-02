@@ -16,12 +16,16 @@ const QuoteForm = () => {
     const [filteredSrcTokens, setFilteredSrcTokens] = useState([]);
     const [filteredDestTokens, setFilteredDestTokens] = useState([]);
     const [loading, setLoading] = useState(false); // Add loading state
+    const [loadingSrcTokens, setLoadingSrcTokens] = useState(false);
+    const [loadingDestTokens, setLoadingDestTokens] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAndFilterTokens = async () => {
+            setLoadingSrcTokens(true);
             const filteredTokens = await filterTokensByChainId(formData.srcChainId);
             setFilteredSrcTokens(filteredTokens);
+            setLoadingSrcTokens(false);
         };
         if (formData.srcChainId) {
             fetchAndFilterTokens();
@@ -30,13 +34,18 @@ const QuoteForm = () => {
 
     useEffect(() => {
         const fetchAndFilterTokens = async () => {
-            const filteredTokens = await filterTokensByChainId(formData.destChainId);
-            setFilteredDestTokens(filteredTokens);
+            setLoadingDestTokens(true);
+            if (formData.destChainId) {
+                let filteredTokens = await filterTokensByChainId(formData.destChainId);
+                if (formData.srcChainId === formData.destChainId) {
+                    filteredTokens = filteredTokens.filter(token => token.value !== formData.fromTokenAddress);
+                }
+                setFilteredDestTokens(filteredTokens);
+            }
+            setLoadingDestTokens(false);
         };
-        if (formData.destChainId) {
-            fetchAndFilterTokens();
-        }
-    }, [formData.destChainId]);
+        fetchAndFilterTokens();
+    }, [formData.destChainId, formData.fromTokenAddress]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,12 +60,14 @@ const QuoteForm = () => {
         // Handling the submit logic here, like calling the backend API
         setLoading(true);
         const { srcChainId, fromTokenAddress, amount, destChainId, toTokenAddress } = formData;
+        const amountInWei = (parseFloat(amount) * 10 ** 18).toString(); // Convert amount to wei
+        console.log("amountInWei: ", amountInWei)
         try {
             const response = await axios.get(`https://open-api.xy.finance/v1/quote`, {
                 params: {
                     srcChainId,
                     fromTokenAddress,
-                    amount,
+                    amount: amountInWei,
                     destChainId,
                     toTokenAddress
                 }
@@ -111,13 +122,16 @@ const QuoteForm = () => {
                         onChange={handleSelectChange}
                         components={{ SingleValue: customSingleValue, Option: customOption }}
                         placeholder="Select Token"
-                        noOptionsMessage={() => "No tokens available"}
+                        noOptionsMessage={() => loadingSrcTokens ? "Fetching tokens..." : "No tokens available"} // Conditionally display message
                         isDisabled={!formData.srcChainId}
                     />
                 </label>
                 <label>
                     Amount:
-                    <input type="text" name="amount" value={formData.amount} onChange={handleChange} required />
+                    <div className="amount-container">
+                        <input type="text" name="amount" value={formData.amount} onChange={handleChange} required />
+                        <span className="amount-unit">ETH</span>
+                    </div>
                 </label>
                 <label>
                     Destination Chain ID:
@@ -131,7 +145,7 @@ const QuoteForm = () => {
                         onChange={handleSelectChange}
                         components={{ SingleValue: customSingleValue, Option: customOption }}
                         placeholder="Select Token"
-                        noOptionsMessage={() => "No tokens available"}
+                        noOptionsMessage={() => loadingDestTokens ? "Fetching tokens..." : "No tokens available"} 
                         isDisabled={!formData.destChainId}
                     />
                 </label>
