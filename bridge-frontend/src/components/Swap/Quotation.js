@@ -1,3 +1,4 @@
+import {API_URL} from '../../constants/urls';
 export const getQuote = async (
   srcChainId,
   fromTokenAddress,
@@ -5,7 +6,7 @@ export const getQuote = async (
   destChainId,
   toTokenAddress
 ) => {
-  const url = new URL("https://open-api.xy.finance/v1/quote");
+  const url = new URL(`${API_URL}/quote`);
   url.searchParams.append("srcChainId", srcChainId);
   url.searchParams.append("fromTokenAddress", fromTokenAddress);
   url.searchParams.append("amount", amount);

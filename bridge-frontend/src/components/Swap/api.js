@@ -1,12 +1,12 @@
 // api.js
-const API_URL = 'https://aggregator-api.xy.finance/v1/recommendedTokens';
+import {API_URL} from '../../constants/urls';
 
 export const fetchRecommendedTokens = async () => {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/tokens`);
     const data = await response.json();
-    if (data.success) {
-      return data.recommendedTokens;
+    if (data) {
+      return data;
     } else {
       throw new Error('Failed to fetch recommended tokens');
     }

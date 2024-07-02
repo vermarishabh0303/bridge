@@ -13,6 +13,7 @@ const Swap = () => {
   const [selectedToken2, setSelectedToken2] = useState(null);
   const [amount, setAmount] = useState();
   const [qouteResult, setQouteResult] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleSelectChain = (chainId) => {
     console.log("Selected chain:", chainId); // Debug statement
@@ -45,6 +46,7 @@ const Swap = () => {
   };
 
   async function handleGetQoute() {
+    setLoading(true);
     const amt = amount * 10 ** 18;
     const qoute = await getQuote(
       selectedChain,
@@ -55,6 +57,7 @@ const Swap = () => {
     );
     if (qoute?.isSuccess) {
       setQouteResult(qoute);
+      setLoading(false);
     }
   }
 
@@ -93,7 +96,7 @@ const Swap = () => {
           <div
             className="currency_selector"
             onClick={() => setOpenModalFrom(true)}
-            >
+          >
             {selectedToken ? selectedToken.symbol : "Select Token"}
           </div>
         </div>
@@ -112,8 +115,17 @@ const Swap = () => {
             {selectedToken2 ? selectedToken2.symbol : "Select Token"}
           </div>
         </div>
-        {qouteResult?.estimatedGas && (
-          <h3>Estimated Gas {qouteResult.estimatedGas}</h3>
+        
+        {/* {qouteResult?.isSuccess ? (
+        loading ? (<h3>Calculating...</h3>) :
+        qouteResult?.estimatedGas && (
+          <h3>Estimated Gas {qouteResult.estimatedGas} wei</h3>
+        )) :
+        (<h3>Quotation failed: {qouteResult.msg}</h3>)} */}
+        {
+        loading ? (<h3>Calculating...</h3>) :
+        qouteResult?.estimatedGas && (
+          <h3>Estimated Gas {qouteResult.estimatedGas} wei</h3>
         )}
         <button className="button" onClick={handleGetQoute}>
           Get Quote
