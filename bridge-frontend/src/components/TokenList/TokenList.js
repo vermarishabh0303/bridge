@@ -12,18 +12,21 @@ const TokenList = () => {
     useEffect(() => {
         const fetchAndSetTokens = async () => {
             const uniqueTokens = await fetchTokens();
-            console.log("Fetched Tokens:", uniqueTokens);
             setTokens(uniqueTokens);
         };
         fetchAndSetTokens();
+        console.log(tokens[0]);
     }, []);
 
-    const customSingleValue = ({ data }) => (
+
+    const customSingleValue = React.memo(({ data }) => {
+        // console.log("data tabel:", data.label);
+        return (
         <div className="custom-single-value">
             <img src={data.logo} alt={data.label} className="token-logo" />
             {data.label}
         </div>
-    );
+    )});
 
     const customOption = ({ innerRef, innerProps, data }) => (
         <div ref={innerRef} {...innerProps} className="custom-option">

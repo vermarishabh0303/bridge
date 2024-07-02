@@ -1,7 +1,7 @@
 .custom-single-value {
     display: flex;
     align-items: center;
-    color: #ffffff; /* Text color for selected value */
+    color: #000000; /* Text color for selected value */
 }
 
 .custom-option {
