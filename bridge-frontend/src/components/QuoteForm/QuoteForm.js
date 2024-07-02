@@ -4,6 +4,7 @@ import filterTokensByChainId from '../../utils/filterTokensByChainId';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import './QuoteForm.css';
+import { API_URL } from '../../constants/urls';
 
 const QuoteForm = () => {
     const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ const QuoteForm = () => {
     });
     const [filteredSrcTokens, setFilteredSrcTokens] = useState([]);
     const [filteredDestTokens, setFilteredDestTokens] = useState([]);
-    const [loading, setLoading] = useState(false); // Add loading state
+    const [loading, setLoading] = useState(false);
     const [loadingSrcTokens, setLoadingSrcTokens] = useState(false);
     const [loadingDestTokens, setLoadingDestTokens] = useState(false);
     const navigate = useNavigate();
@@ -23,7 +24,9 @@ const QuoteForm = () => {
     useEffect(() => {
         const fetchAndFilterTokens = async () => {
             setLoadingSrcTokens(true);
+            console.log("Fetching tokens for chainId:", formData.srcChainId);
             const filteredTokens = await filterTokensByChainId(formData.srcChainId);
+            console.log("Fetched tokens:", filteredTokens);
             setFilteredSrcTokens(filteredTokens);
             setLoadingSrcTokens(false);
         };
@@ -35,11 +38,13 @@ const QuoteForm = () => {
     useEffect(() => {
         const fetchAndFilterTokens = async () => {
             setLoadingDestTokens(true);
+            console.log("Fetching tokens for chainId:", formData.destChainId);
             if (formData.destChainId) {
                 let filteredTokens = await filterTokensByChainId(formData.destChainId);
                 if (formData.srcChainId === formData.destChainId) {
                     filteredTokens = filteredTokens.filter(token => token.value !== formData.fromTokenAddress);
                 }
+                console.log("Fetched tokens:", filteredTokens);
                 setFilteredDestTokens(filteredTokens);
             }
             setLoadingDestTokens(false);
@@ -57,13 +62,12 @@ const QuoteForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handling the submit logic here, like calling the backend API
         setLoading(true);
         const { srcChainId, fromTokenAddress, amount, destChainId, toTokenAddress } = formData;
         const amountInWei = (parseFloat(amount) * 10 ** 18).toString(); // Convert amount to wei
         console.log("amountInWei: ", amountInWei)
         try {
-            const response = await axios.get(`https://open-api.xy.finance/v1/quote`, {
+            const response = await axios.get(API_URL, {
                 params: {
                     srcChainId,
                     fromTokenAddress,
@@ -73,38 +77,36 @@ const QuoteForm = () => {
                 }
             });
             console.log(response.data);
-            // Navigate to the /quotation endpoint
             navigate('/quotation', { state: { quoteData: response.data } });
         } catch (error) {
             console.error("Error fetching quote:", error);
         } finally {
-            setLoading(false); // Set loading state to false
+            setLoading(false);
         }
     };
 
     const customSingleValue = ({ data }) => (
         <div className="custom-single-value">
             <img src={data.logo} alt={data.label} className="token-logo" />
-            {data.label}
+            <span>{data.label}</span>
         </div>
     );
 
     const customOption = ({ innerRef, innerProps, data }) => (
         <div ref={innerRef} {...innerProps} className="custom-option">
             <img src={data.logo} alt={data.label} className="token-logo" />
-            {data.label}
+            <span>{data.label}</span>
         </div>
     );
 
     if (loading) {
         return <div>
             Fetching results...
-                <div>
-                    <img src="/assets/waitingGif.gif" alt="Loading..." style={{ width: '150px', height: '150px' }}/>
-                </div>
-            </div>;
+            <div>
+                <img src="/assets/waitingGif.gif" alt="Loading..." style={{ width: '150px', height: '150px' }} />
+            </div>
+        </div>;
     }
-
 
     return (
         <div>
@@ -122,7 +124,7 @@ const QuoteForm = () => {
                         onChange={handleSelectChange}
                         components={{ SingleValue: customSingleValue, Option: customOption }}
                         placeholder="Select Token"
-                        noOptionsMessage={() => loadingSrcTokens ? "Fetching tokens..." : "No tokens available"} // Conditionally display message
+                        noOptionsMessage={() => loadingSrcTokens ? "Fetching tokens..." : "No tokens available"}
                         isDisabled={!formData.srcChainId}
                     />
                 </label>
@@ -145,12 +147,11 @@ const QuoteForm = () => {
                         onChange={handleSelectChange}
                         components={{ SingleValue: customSingleValue, Option: customOption }}
                         placeholder="Select Token"
-                        noOptionsMessage={() => loadingDestTokens ? "Fetching tokens..." : "No tokens available"} 
+                        noOptionsMessage={() => loadingDestTokens ? "Fetching tokens..." : "No tokens available"}
                         isDisabled={!formData.destChainId}
                     />
                 </label>
                 <button type="submit" disabled={!formData.srcChainId || !formData.fromTokenAddress || !formData.amount || !formData.destChainId || !formData.toTokenAddress}>Get Quote</button>
-                {/* <button onClick={() => navigate('/quotation')}>Get Parameters</button> */}
             </form>
         </div>
     );

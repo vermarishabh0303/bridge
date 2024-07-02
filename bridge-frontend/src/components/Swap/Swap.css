@@ -1,0 +1,126 @@
+.swap_page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swap_container {
+  width: 60%;
+  min-height: 340px;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  border-radius: 24px;
+  background-color: rgb(39, 39, 138);
+  padding: 24px;
+  position: relative;
+  max-width: 600px;
+  text-align: left;
+}
+.input {
+  width: 100%;
+  height: 120px;
+  border-radius: 18px;
+  position: relative;
+  background-color: white;
+  padding: 12px;
+}
+.input input {
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+  padding: 12px 36px;
+}
+input:disabled{
+    background-color: white;
+}
+.currency_selector {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5%;
+  width: max-content;
+  min-width: 120px;
+  padding: 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 36px;
+  background-color: rgb(162, 153, 153);
+  cursor: pointer;
+}
+.button {
+  width: 100%;
+  height: 56px;
+  font-size: 1.5rem;
+  border-radius: 18px;
+}
+.modal_container {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  color: white;
+  transform: translateY(-10%);
+  width: 600px;
+  height: 600px;
+  background-color: rgb(24, 21, 21);
+  z-index: 20;
+  border-radius: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 36px;
+}
+.chain_selector{
+    width: 100%;
+    height: 200px;
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 16px;
+}
+.chain_selector img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+.token_listing{
+   
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: gray;
+    border-radius: 24px;
+    gap: 24px;
+}
+.each_token{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    gap: 26px;
+    font-size: 2rem;
+   
+    border-radius: 12px;
+
+}
+.each_token img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}

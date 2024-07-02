@@ -61,3 +61,15 @@ button:disabled {
     pointer-events: none;
     color: #666; /* Adjust color as needed */
 }
+
+.custom-single-value, .custom-option {
+    display: flex;
+    align-items: center;
+}
+
+.token-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
