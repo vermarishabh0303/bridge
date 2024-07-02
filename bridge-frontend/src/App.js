@@ -14,8 +14,8 @@ const App = () => {
             <div className="container">
                 <div className="App">
                     <Routes>
-                        <Route path="/" element={<TokenList />} />
-                        <Route path="/quote" element={<QuoteForm />} />
+                        <Route path="/" element={<QuoteForm />} />
+                        <Route path="/tokenList" element={<TokenList />} />
                         <Route path="/transactionParams" element={<TransactionParams />} />
                     </Routes>
                 </div>

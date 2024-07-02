@@ -42,7 +42,7 @@ const TokenList = () => {
                 placeholder="Supported Tokens"
                 noOptionsMessage={() => "No tokens available"}
             />
-            <button onClick={() => navigate('/quote')}>Get Quote</button>
+            <button onClick={() => navigate('/')}>Get Quote</button>
         </div>
     );
 };
