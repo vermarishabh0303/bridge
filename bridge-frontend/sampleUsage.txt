@@ -1,0 +1,11 @@
+sample call:
+
+srcChainId=1
+fromToken = ETH
+fromTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+amount=500000000000000000
+destChainId=56
+toToken = BNB
+toTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+// const response = await axios.get('https://open-api.xy.finance/v1/quote?srcChainId=1&fromTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&amount=500000000000000000&destChainId=56&toTokenAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
